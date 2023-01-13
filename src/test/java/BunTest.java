@@ -1,24 +1,38 @@
-import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 import praktikum.Bun;
 
+import static org.junit.Assert.assertEquals;
+
+@RunWith(Parameterized.class)
 public class BunTest {
+    @Parameterized.Parameter()
+    public String name;
+    @Parameterized.Parameter(1)
+    public float price;
 
-    private Bun bun;
-
-    @Before
-    public void setUp() {
-        bun = new Bun("Corn bread", 200.0f);
+    @Parameterized.Parameters(name = "Name = {0}, Price = {1}")
+    public static Object[][] dataForTest() {
+        return new Object[][]{
+                {"", 12f},
+                {null, 0},
+                {"!@#!$$!$$!$<>", 12456464564346454654564564652333f},
+                {"     ", -1231546f},
+                {"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuurger", 0.0000000000000000001f},
+                {"best bun", 200.00f},
+                {"-546454654564564652333f", 1/100f}
+        };
     }
-
     @Test
     public void getNameTest() {
-        Assert.assertEquals("Corn bread", bun.getName());
+        Bun bun = new Bun(name, price);
+        assertEquals("Булка называется: ", name, bun.getName());
     }
 
     @Test
     public void getPriceTest() {
-        Assert.assertEquals(200.0f, bun.getPrice(), 0);
+        Bun bun = new Bun(name, price);
+        assertEquals(price, bun.getPrice(), 0);
     }
 }
